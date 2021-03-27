@@ -10,8 +10,6 @@ const squareElements = setupGrid()
 
 // start on second-to-last 'row' in the middle 'column'
 let currentShooterIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
-let direction = 1
-let invadersId
 let goingRight = true
 let results = 0
 
@@ -60,27 +58,28 @@ function moveInvaders() {
     }
 
     removeInvaders()
-    const leftEdge = alienInvaders[0] % WIDTH === 0
-    const rightEdge = alienInvaders[alienInvaders.length - 1] % WIDTH === WIDTH -1
+    const atLeftEdge = alienInvaders[0] % WIDTH === 0
+    const atRightEdge = alienInvaders[alienInvaders.length - 1] % WIDTH === WIDTH - 1
 
-    if (rightEdge && goingRight) {
-        for (let i = 0; i < alienInvaders.length; i++) {
-            alienInvaders[i] += WIDTH + 1
-            direction = -1
+    let movement = 0;
+    if (goingRight) {
+        if (atRightEdge) {
+            movement += WIDTH
             goingRight = false
+        } else {
+            movement += 1
         }
-    }
-
-    if (leftEdge && !goingRight) {
-        for (let i = 0; i < alienInvaders.length; i++) {
-            alienInvaders[i] += WIDTH - 1
-            direction = 1
+    } else {
+        if (atLeftEdge) {
+            movement += WIDTH
             goingRight = true
+        } else {
+            movement -= 1
         }
     }
 
     for (let i = 0; i < alienInvaders.length; i++) {
-        alienInvaders[i] += direction
+        alienInvaders[i] += movement
     }
 
     addInvaders()
