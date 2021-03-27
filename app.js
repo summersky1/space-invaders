@@ -105,23 +105,27 @@ function shoot(event) {
     let currentBulletIndex = currentShooterIndex
 
     function moveBullet() {
-        squares[currentBulletIndex].classList.remove('bullet')
-        currentBulletIndex -= width
-        squares[currentBulletIndex].classList.add('bullet')
-
-        if (squares[currentBulletIndex].classList.contains('invader')) {
+        if (currentBulletIndex - width >= 0) {
             squares[currentBulletIndex].classList.remove('bullet')
-            squares[currentBulletIndex].classList.remove('invader')
-            squares[currentBulletIndex].classList.add('boom')
+            currentBulletIndex -= width
+            squares[currentBulletIndex].classList.add('bullet')
 
-            setTimeout(()=> squares[currentBulletIndex].classList.remove('boom'), 200)
-            clearInterval(bulletId)
-
-            const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
-            aliensRemoved.push(alienRemoved)
-            results++
-            resultsDisplay.innerHTML = results
-            console.log(aliensRemoved)
+            if (squares[currentBulletIndex].classList.contains('invader')) {
+                squares[currentBulletIndex].classList.remove('bullet')
+                squares[currentBulletIndex].classList.remove('invader')
+                squares[currentBulletIndex].classList.add('boom')
+    
+                setTimeout(()=> squares[currentBulletIndex].classList.remove('boom'), 200)
+                clearInterval(bulletId)
+    
+                const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
+                aliensRemoved.push(alienRemoved)
+                results++
+                resultsDisplay.innerHTML = results
+                console.log(aliensRemoved)
+            }
+        } else {
+            squares[currentBulletIndex].classList.remove('bullet')
         }
     }
 
