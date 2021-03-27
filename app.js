@@ -3,6 +3,7 @@ const resultsDisplay = document.querySelector('.results')
 let currentShooterIndex = 202
 let width = 15
 let direction = 1
+let invadersId
 let goingRight = true
 let aliensRemoved = []
 
@@ -62,8 +63,24 @@ function moveInvaders() {
     }
 
     draw()
+
+    if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) {
+        resultsDisplay.innerHTML = 'GAME OVER'
+        clearInterval(invadersId)
+    }
+    for (let i = 0; i < alienInvaders.length; i++) {
+        if(alienInvaders[i] > squares.length) {
+            resultsDisplay.innerHTML = 'GAME OVER'
+            clearInterval(invadersId)
+        }
+    }
+    if (aliensRemoved.length === alienInvaders.length) {
+        resultsDisplay.innerHTML = 'YOU WIN'
+        clearInterval(invadersId)
+    }
 }
-setInterval(moveInvaders, 600)
+
+invadersId = setInterval(moveInvaders, 1000)
 
 function moveShooter(event) {
     squares[currentShooterIndex].classList.remove('shooter')
