@@ -52,7 +52,7 @@ function removeInvaders() {
     for (let i = 0; i < alienInvaders.length; i++) {
         squareElements[alienInvaders[i]].classList.remove('invader')
     }
-  }
+}
 
 function moveInvaders() {
     if (checkEndCondition()) {
@@ -65,17 +65,17 @@ function moveInvaders() {
 
     if (rightEdge && goingRight) {
         for (let i = 0; i < alienInvaders.length; i++) {
-        alienInvaders[i] += WIDTH +1
-        direction = -1
-        goingRight = false
+            alienInvaders[i] += WIDTH + 1
+            direction = -1
+            goingRight = false
         }
     }
 
-    if(leftEdge && !goingRight) {
+    if (leftEdge && !goingRight) {
         for (let i = 0; i < alienInvaders.length; i++) {
-        alienInvaders[i] += WIDTH -1
-        direction = 1
-        goingRight = true
+            alienInvaders[i] += WIDTH - 1
+            direction = 1
+            goingRight = true
         }
     }
 
@@ -84,13 +84,12 @@ function moveInvaders() {
     }
 
     addInvaders()
-
     setTimeout(moveInvaders, INVADER_SPEED)
 }
 
 function moveShooter(event) {
     squareElements[currentShooterIndex].classList.remove('shooter')
-    switch(event.key) {
+    switch (event.key) {
         case 'ArrowLeft':
             if (currentShooterIndex % WIDTH !== 0)
                 currentShooterIndex -= 1
@@ -106,7 +105,7 @@ function moveShooter(event) {
 function shoot(event) {
     let currentBulletIndex = currentShooterIndex
 
-    switch(event.key) {
+    switch (event.key) {
         case 'ArrowUp':
             moveBullet()
             break
@@ -129,7 +128,6 @@ function shoot(event) {
                 aliensRemoved.push(alienRemoved)
                 results++
                 resultsDisplay.innerHTML = results
-                console.log(aliensRemoved)
                 
             } else { // continue to move if no invader hit or not at edge
                 setTimeout(moveBullet, BULLET_SPEED)
@@ -146,13 +144,12 @@ function checkEndCondition() {
         resultsDisplay.innerHTML = 'GAME OVER'
         end = true
     }
-    for (let i = 0; i < alienInvaders.length; i++) {
-        if(alienInvaders[i] > squareElements.length) {
-            resultsDisplay.innerHTML = 'GAME OVER'
-            end = true
-            break
-        }
+
+    if (alienInvaders[alienInvaders.length - 1] + 1 >= squareElements.length) {
+        resultsDisplay.innerHTML = 'GAME OVER'
+        end = true
     }
+    
     if (aliensRemoved.length === alienInvaders.length) {
         resultsDisplay.innerHTML = 'YOU WIN'
         end = true
