@@ -101,23 +101,23 @@ function moveShooter(event) {
 document.addEventListener('keydown', moveShooter)
 
 function shoot(event) {
-    let laserId
-    let currentLaserIndex = currentShooterIndex
+    let bulletId
+    let currentBulletIndex = currentShooterIndex
 
-    function moveLaser() {
-        squares[currentLaserIndex].classList.remove('laser')
-        currentLaserIndex -= width
-        squares[currentLaserIndex].classList.add('laser')
+    function moveBullet() {
+        squares[currentBulletIndex].classList.remove('bullet')
+        currentBulletIndex -= width
+        squares[currentBulletIndex].classList.add('bullet')
 
-        if (squares[currentLaserIndex].classList.contains('invader')) {
-            squares[currentLaserIndex].classList.remove('laser')
-            squares[currentLaserIndex].classList.remove('invader')
-            squares[currentLaserIndex].classList.add('boom')
+        if (squares[currentBulletIndex].classList.contains('invader')) {
+            squares[currentBulletIndex].classList.remove('bullet')
+            squares[currentBulletIndex].classList.remove('invader')
+            squares[currentBulletIndex].classList.add('boom')
 
-            setTimeout(()=> squares[currentLaserIndex].classList.remove('boom'), 200)
-            clearInterval(laserId)
+            setTimeout(()=> squares[currentBulletIndex].classList.remove('boom'), 200)
+            clearInterval(bulletId)
 
-            const alienRemoved = alienInvaders.indexOf(currentLaserIndex)
+            const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
             aliensRemoved.push(alienRemoved)
             results++
             resultsDisplay.innerHTML = results
@@ -127,7 +127,7 @@ function shoot(event) {
 
     switch(event.key) {
         case 'ArrowUp':
-            laserId = setInterval(moveLaser, 100)
+            bulletId = setInterval(moveBullet, 100)
             break
     }
 }
