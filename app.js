@@ -34,10 +34,10 @@ function setupGrid() {
 
 function setupGame() {
     squareElements[currentShooterIndex].classList.add('shooter')
-    addInvaders()
-    invadersId = setInterval(moveInvaders, INVADER_SPEED)
     document.addEventListener('keydown', moveShooter)
     document.addEventListener('keydown', shoot)
+    addInvaders()
+    setTimeout(moveInvaders, INVADER_SPEED)
 }
 
 function addInvaders() {
@@ -55,9 +55,13 @@ function removeInvaders() {
   }
 
 function moveInvaders() {
+    if (checkEndCondition()) {
+        return
+    }
+
+    removeInvaders()
     const leftEdge = alienInvaders[0] % WIDTH === 0
     const rightEdge = alienInvaders[alienInvaders.length - 1] % WIDTH === WIDTH -1
-    removeInvaders()
 
     if (rightEdge && goingRight) {
         for (let i = 0; i < alienInvaders.length; i++) {
@@ -81,20 +85,7 @@ function moveInvaders() {
 
     addInvaders()
 
-    if (squareElements[currentShooterIndex].classList.contains('invader', 'shooter')) {
-        resultsDisplay.innerHTML = 'GAME OVER'
-        clearInterval(invadersId)
-    }
-    for (let i = 0; i < alienInvaders.length; i++) {
-        if(alienInvaders[i] > squareElements.length) {
-            resultsDisplay.innerHTML = 'GAME OVER'
-            clearInterval(invadersId)
-        }
-    }
-    if (aliensRemoved.length === alienInvaders.length) {
-        resultsDisplay.innerHTML = 'YOU WIN'
-        clearInterval(invadersId)
-    }
+    setTimeout(moveInvaders, INVADER_SPEED)
 }
 
 function moveShooter(event) {
@@ -147,6 +138,26 @@ function shoot(event) {
             squareElements[currentBulletIndex].classList.remove('bullet')
         }
     }
+}
+
+function checkEndCondition() {
+    let end = false
+    if (squareElements[currentShooterIndex].classList.contains('invader', 'shooter')) {
+        resultsDisplay.innerHTML = 'GAME OVER'
+        end = true
+    }
+    for (let i = 0; i < alienInvaders.length; i++) {
+        if(alienInvaders[i] > squareElements.length) {
+            resultsDisplay.innerHTML = 'GAME OVER'
+            end = true
+            break
+        }
+    }
+    if (aliensRemoved.length === alienInvaders.length) {
+        resultsDisplay.innerHTML = 'YOU WIN'
+        end = true
+    }
+    return end
 }
 
 setupGame()
