@@ -1,9 +1,15 @@
+const WIDTH = 15
+const HEIGHT = 15
+// lower = faster
+const INVADER_SPEED = 800
+const BULLET_SPEED = 100
+
 const gridElement = document.querySelector('.grid')
 const resultsDisplay = document.querySelector('.results')
 const squareElements = setupGrid()
 
-let currentShooterIndex = 202
-let width = 15
+// start on second-to-last 'row' in the middle 'column'
+let currentShooterIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
 let direction = 1
 let invadersId
 let goingRight = true
@@ -18,7 +24,7 @@ const aliensRemoved = []
 
 function setupGrid() {
     let squares = []
-    for (let i = 0; i < 225; i++) {
+    for (let i = 0; i < WIDTH * HEIGHT; i++) {
         const square = document.createElement('div')
         gridElement.appendChild(square)
         squares.push(square)
@@ -29,7 +35,7 @@ function setupGrid() {
 function setupGame() {
     squareElements[currentShooterIndex].classList.add('shooter')
     addInvaders()
-    invadersId = setInterval(moveInvaders, 1000)
+    invadersId = setInterval(moveInvaders, INVADER_SPEED)
     document.addEventListener('keydown', moveShooter)
     document.addEventListener('keydown', shoot)
 }
@@ -49,13 +55,13 @@ function removeInvaders() {
   }
 
 function moveInvaders() {
-    const leftEdge = alienInvaders[0] % width === 0
-    const rightEdge = alienInvaders[alienInvaders.length - 1] % width === width -1
+    const leftEdge = alienInvaders[0] % WIDTH === 0
+    const rightEdge = alienInvaders[alienInvaders.length - 1] % WIDTH === WIDTH -1
     removeInvaders()
 
     if (rightEdge && goingRight) {
         for (let i = 0; i < alienInvaders.length; i++) {
-        alienInvaders[i] += width +1
+        alienInvaders[i] += WIDTH +1
         direction = -1
         goingRight = false
         }
@@ -63,7 +69,7 @@ function moveInvaders() {
 
     if(leftEdge && !goingRight) {
         for (let i = 0; i < alienInvaders.length; i++) {
-        alienInvaders[i] += width -1
+        alienInvaders[i] += WIDTH -1
         direction = 1
         goingRight = true
         }
@@ -95,11 +101,11 @@ function moveShooter(event) {
     squareElements[currentShooterIndex].classList.remove('shooter')
     switch(event.key) {
         case 'ArrowLeft':
-            if (currentShooterIndex % width !== 0)
+            if (currentShooterIndex % WIDTH !== 0)
                 currentShooterIndex -= 1
             break
         case 'ArrowRight' :
-            if (currentShooterIndex % width < width - 1)
+            if (currentShooterIndex % WIDTH < WIDTH - 1)
                 currentShooterIndex += 1
             break
     }
@@ -116,9 +122,9 @@ function shoot(event) {
     }
 
     function moveBullet() {
-        if (currentBulletIndex - width >= 0) {
+        if (currentBulletIndex - WIDTH >= 0) {
             squareElements[currentBulletIndex].classList.remove('bullet')
-            currentBulletIndex -= width
+            currentBulletIndex -= WIDTH
             squareElements[currentBulletIndex].classList.add('bullet')
 
             if (squareElements[currentBulletIndex].classList.contains('invader')) {
@@ -135,7 +141,7 @@ function shoot(event) {
                 console.log(aliensRemoved)
                 
             } else { // continue to move if no invader hit or not at edge
-                setTimeout(moveBullet, 100)
+                setTimeout(moveBullet, BULLET_SPEED)
             }
         } else {
             squareElements[currentBulletIndex].classList.remove('bullet')
