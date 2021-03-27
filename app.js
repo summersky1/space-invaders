@@ -101,8 +101,13 @@ function moveShooter(event) {
 document.addEventListener('keydown', moveShooter)
 
 function shoot(event) {
-    let bulletId
     let currentBulletIndex = currentShooterIndex
+
+    switch(event.key) {
+        case 'ArrowUp':
+            moveBullet()
+            break
+    }
 
     function moveBullet() {
         if (currentBulletIndex - width >= 0) {
@@ -116,23 +121,19 @@ function shoot(event) {
                 squares[currentBulletIndex].classList.add('boom')
     
                 setTimeout(()=> squares[currentBulletIndex].classList.remove('boom'), 200)
-                clearInterval(bulletId)
     
                 const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
                 aliensRemoved.push(alienRemoved)
                 results++
                 resultsDisplay.innerHTML = results
                 console.log(aliensRemoved)
+                
+            } else { // continue to move if no invader hit or not at edge
+                setTimeout(moveBullet, 100)
             }
         } else {
             squares[currentBulletIndex].classList.remove('bullet')
         }
-    }
-
-    switch(event.key) {
-        case 'ArrowUp':
-            bulletId = setInterval(moveBullet, 100)
-            break
     }
 }
  
