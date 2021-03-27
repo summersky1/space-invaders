@@ -1,2 +1,1 @@
-# space-invaders
-Space Invaders (JavaScript practise #3)
+Simple Space Invaders game
