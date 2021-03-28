@@ -1,9 +1,13 @@
 const WIDTH = 15
 const HEIGHT = 15
-// lower = faster
+// speed invaders move
 const INVADER_SPEED = 700
+// bullet travel speed
 const BULLET_SPEED = 100
+// delay before bullets are fired if shoot key is held down
 const SHOOT_COOLDOWN = 600
+// delay before being able to shoot again if shoot key is released, prevents rapid fire
+const RECHARGE_COOLDOWN = 100
 
 const gridElement = document.querySelector('#grid')
 const scoreElement = document.querySelector('#score')
@@ -13,6 +17,7 @@ const squareElements = setupGrid()
 let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
 let isShooting = false
 let shootingInterval = null
+let rechargeTimeout = null
 let goingRight = true
 let results = 0
 
@@ -108,7 +113,7 @@ function moveShip(event) {
 function startShooting(event) {
     switch (event.key) {
         case 'ArrowUp':
-            if (isShooting === false) {
+            if (isShooting === false && rechargeTimeout === null) {
                 isShooting = true
                 shoot()
                 shootingInterval = setInterval(shoot, SHOOT_COOLDOWN)
@@ -123,6 +128,7 @@ function stopShooting(event) {
             if (isShooting === true) {
                 isShooting = false
                 clearInterval(shootingInterval)
+                rechargeTimeout = setTimeout(() => rechargeTimeout = null, RECHARGE_COOLDOWN)
             }
             break
     }
@@ -150,7 +156,8 @@ function shoot() {
                 results++
                 scoreElement.innerHTML = results
                 
-            } else { // continue to move if no invader hit or not at edge
+            } else {
+                // continue to move if no invader hit or not at edge
                 setTimeout(moveBullet, BULLET_SPEED)
             }
         } else {
