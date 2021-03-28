@@ -5,7 +5,6 @@
 #grid {
 	width: 602px;
 	height: 602px;
-	border: solid black 1px;
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -34,6 +33,7 @@
 	background-size: var(--square-size);
 }
 
-.boom {
-	background-color: red;
+.explosion {
+	background-image: url('sprites/explosion.png');
+	background-size: var(--square-size);
 }

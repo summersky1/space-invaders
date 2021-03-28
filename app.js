@@ -124,9 +124,9 @@ function shoot(event) {
             if (squareElements[currentBulletIndex].classList.contains('invader')) {
                 squareElements[currentBulletIndex].classList.remove('bullet')
                 squareElements[currentBulletIndex].classList.remove('invader')
-                squareElements[currentBulletIndex].classList.add('boom')
+                squareElements[currentBulletIndex].classList.add('explosion')
     
-                setTimeout(()=> squareElements[currentBulletIndex].classList.remove('boom'), 200)
+                setTimeout(()=> squareElements[currentBulletIndex].classList.remove('explosion'), 200)
     
                 const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
                 aliensRemoved.push(alienRemoved)
