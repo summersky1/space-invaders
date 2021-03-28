@@ -6,7 +6,7 @@ const BULLET_SPEED = 100
 const SHOOT_COOLDOWN = 600
 
 const gridElement = document.querySelector('#grid')
-const resultsDisplay = document.querySelector('#results')
+const scoreElement = document.querySelector('#score')
 const squareElements = setupGrid()
 
 // start on second-to-last 'row' in the middle 'column'
@@ -131,7 +131,7 @@ function shoot(event) {
                 const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
                 aliensRemoved.push(alienRemoved)
                 results++
-                resultsDisplay.innerHTML = results
+                scoreElement.innerHTML = results
                 
             } else { // continue to move if no invader hit or not at edge
                 setTimeout(moveBullet, BULLET_SPEED)
@@ -145,15 +145,15 @@ function shoot(event) {
 function checkEndCondition() {
     let end = false
     if (squareElements[currentShipIndex].classList.contains('invader', 'ship')) {
-        resultsDisplay.innerHTML = 'GAME OVER'
+        scoreElement.innerHTML = 'GAME OVER'
         end = true
     }
     if (alienInvaders[alienInvaders.length - 1] + 1 >= squareElements.length) {
-        resultsDisplay.innerHTML = 'GAME OVER'
+        scoreElement.innerHTML = 'GAME OVER'
         end = true
     }
     if (aliensRemoved.length === alienInvaders.length) {
-        resultsDisplay.innerHTML = 'YOU WIN'
+        scoreElement.innerHTML = 'YOU WIN'
         end = true
     }
     return end
