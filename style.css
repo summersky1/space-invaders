@@ -1,19 +1,19 @@
-.grid {
-	width: 300px;
-	height: 300px;
+#grid {
+	width: 602px;
+	height: 602px;
 	border: solid black 1px;
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.grid div {
-	width: 20px;
-	height: 20px;
+#grid div {
+	width: 40px;
+	height: 40px;
 }
 
 .invader {
 	background-color: purple;
-	border-radius: 10px;
+	border-radius: 20px;
 }
 
 .shooter {

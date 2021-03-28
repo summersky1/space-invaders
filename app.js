@@ -4,8 +4,8 @@ const HEIGHT = 15
 const INVADER_SPEED = 800
 const BULLET_SPEED = 100
 
-const gridElement = document.querySelector('.grid')
-const resultsDisplay = document.querySelector('.results')
+const gridElement = document.querySelector('#grid')
+const resultsDisplay = document.querySelector('#results')
 const squareElements = setupGrid()
 
 // start on second-to-last 'row' in the middle 'column'
