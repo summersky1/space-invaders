@@ -3,6 +3,7 @@ const HEIGHT = 15
 // lower = faster
 const INVADER_SPEED = 800
 const BULLET_SPEED = 100
+const SHOOT_COOLDOWN = 600
 const SHIP_IMAGE = 'sprites/ship.png'
 
 const gridElement = document.querySelector('#grid')
@@ -12,6 +13,7 @@ const shipElement = setupShip()
 
 // start on second-to-last 'row' in the middle 'column'
 let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
+let shootingTimeout = null
 let goingRight = true
 let results = 0
 
@@ -115,7 +117,10 @@ function shoot(event) {
 
     switch (event.key) {
         case 'ArrowUp':
-            moveBullet()
+            if (shootingTimeout === null) {
+                moveBullet()
+                shootingTimeout = setTimeout(() => shootingTimeout = null, SHOOT_COOLDOWN)
+            }
             break
     }
 
