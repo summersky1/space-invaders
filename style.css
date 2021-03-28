@@ -11,8 +11,12 @@
 	height: 40px;
 }
 
+.star-background {
+	background-image: url('sprites/starBackground.png');
+}
+
 .invader {
-	background-color: purple;
+	background-color: orange;
 	border-radius: 20px;
 }
 
