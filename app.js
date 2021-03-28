@@ -1,7 +1,7 @@
 const WIDTH = 15
 const HEIGHT = 15
 // lower = faster
-const INVADER_SPEED = 800
+const INVADER_SPEED = 700
 const BULLET_SPEED = 100
 const SHOOT_COOLDOWN = 600
 
@@ -11,7 +11,8 @@ const squareElements = setupGrid()
 
 // start on second-to-last 'row' in the middle 'column'
 let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
-let shootingTimeout = null
+let isShooting = false
+let shootingInterval = null
 let goingRight = true
 let results = 0
 
@@ -35,7 +36,8 @@ function setupGrid() {
 function setupGame() {
     squareElements[currentShipIndex].classList.add('ship')
     document.addEventListener('keydown', moveShip)
-    document.addEventListener('keydown', shoot)
+    document.addEventListener('keydown', startShooting)
+    document.addEventListener('keyup', stopShooting)
     addInvaders()
     setTimeout(moveInvaders, INVADER_SPEED)
 }
@@ -103,17 +105,32 @@ function moveShip(event) {
     squareElements[currentShipIndex].classList.add('ship')
 }
 
-function shoot(event) {
-    let currentBulletIndex = currentShipIndex
-
+function startShooting(event) {
     switch (event.key) {
         case 'ArrowUp':
-            if (shootingTimeout === null) {
-                moveBullet()
-                shootingTimeout = setTimeout(() => shootingTimeout = null, SHOOT_COOLDOWN)
+            if (isShooting === false) {
+                isShooting = true
+                shoot()
+                shootingInterval = setInterval(shoot, SHOOT_COOLDOWN)
             }
             break
     }
+}
+
+function stopShooting(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            if (isShooting === true) {
+                isShooting = false
+                clearInterval(shootingInterval)
+            }
+            break
+    }
+}
+
+function shoot() {
+    let currentBulletIndex = currentShipIndex
+    moveBullet()
 
     function moveBullet() {
         if (currentBulletIndex - WIDTH >= 0) {
