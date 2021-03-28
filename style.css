@@ -17,7 +17,7 @@
 }
 
 .bullet {
-	background-color: orange;
+	background-image:url('sprites/bullet.png');
 }
 
 .boom {
