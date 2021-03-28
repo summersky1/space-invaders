@@ -3,13 +3,15 @@ const HEIGHT = 15
 // lower = faster
 const INVADER_SPEED = 800
 const BULLET_SPEED = 100
+const SHIP_IMAGE = 'sprites/ship.png'
 
 const gridElement = document.querySelector('#grid')
 const resultsDisplay = document.querySelector('#results')
 const squareElements = setupGrid()
+const shipElement = setupShip()
 
 // start on second-to-last 'row' in the middle 'column'
-let currentShooterIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
+let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
 let goingRight = true
 let results = 0
 
@@ -30,9 +32,16 @@ function setupGrid() {
     return squares
 }
 
+function setupShip() {
+    let ship = document.createElement('img')
+    ship.setAttribute('src', SHIP_IMAGE)
+    ship.classList.add('img-fluid')
+    return ship
+}
+
 function setupGame() {
-    squareElements[currentShooterIndex].classList.add('shooter')
-    document.addEventListener('keydown', moveShooter)
+    squareElements[currentShipIndex].appendChild(shipElement)
+    document.addEventListener('keydown', moveShip)
     document.addEventListener('keydown', shoot)
     addInvaders()
     setTimeout(moveInvaders, INVADER_SPEED)
@@ -86,23 +95,23 @@ function moveInvaders() {
     setTimeout(moveInvaders, INVADER_SPEED)
 }
 
-function moveShooter(event) {
-    squareElements[currentShooterIndex].classList.remove('shooter')
+function moveShip(event) {
+    squareElements[currentShipIndex].removeChild(shipElement)
     switch (event.key) {
         case 'ArrowLeft':
-            if (currentShooterIndex % WIDTH !== 0)
-                currentShooterIndex -= 1
+            if (currentShipIndex % WIDTH !== 0)
+                currentShipIndex -= 1
             break
         case 'ArrowRight' :
-            if (currentShooterIndex % WIDTH < WIDTH - 1)
-                currentShooterIndex += 1
+            if (currentShipIndex % WIDTH < WIDTH - 1)
+                currentShipIndex += 1
             break
     }
-    squareElements[currentShooterIndex].classList.add('shooter')
+    squareElements[currentShipIndex].appendChild(shipElement)
 }
 
 function shoot(event) {
-    let currentBulletIndex = currentShooterIndex
+    let currentBulletIndex = currentShipIndex
 
     switch (event.key) {
         case 'ArrowUp':
@@ -139,16 +148,15 @@ function shoot(event) {
 
 function checkEndCondition() {
     let end = false
-    if (squareElements[currentShooterIndex].classList.contains('invader', 'shooter')) {
+    if (squareElements[currentShipIndex].classList.contains('invader')
+        && squareElements[currentShipIndex].contains(shipElement)) {
         resultsDisplay.innerHTML = 'GAME OVER'
         end = true
     }
-
     if (alienInvaders[alienInvaders.length - 1] + 1 >= squareElements.length) {
         resultsDisplay.innerHTML = 'GAME OVER'
         end = true
     }
-    
     if (aliensRemoved.length === alienInvaders.length) {
         resultsDisplay.innerHTML = 'YOU WIN'
         end = true
