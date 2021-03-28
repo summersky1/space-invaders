@@ -16,8 +16,14 @@
 	border-radius: 20px;
 }
 
+.ship {
+	background-image: url('sprites/ship.png');
+	background-size: 40px;
+}
+
 .bullet {
-	background-image:url('sprites/bullet.png');
+	background-image: url('sprites/bullet.png');
+	background-size: 40px;
 }
 
 .boom {

@@ -4,12 +4,10 @@ const HEIGHT = 15
 const INVADER_SPEED = 800
 const BULLET_SPEED = 100
 const SHOOT_COOLDOWN = 600
-const SHIP_IMAGE = 'sprites/ship.png'
 
 const gridElement = document.querySelector('#grid')
 const resultsDisplay = document.querySelector('#results')
 const squareElements = setupGrid()
-const shipElement = setupShip()
 
 // start on second-to-last 'row' in the middle 'column'
 let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
@@ -34,15 +32,8 @@ function setupGrid() {
     return squares
 }
 
-function setupShip() {
-    let ship = document.createElement('img')
-    ship.setAttribute('src', SHIP_IMAGE)
-    ship.classList.add('img-fluid')
-    return ship
-}
-
 function setupGame() {
-    squareElements[currentShipIndex].appendChild(shipElement)
+    squareElements[currentShipIndex].classList.add('ship')
     document.addEventListener('keydown', moveShip)
     document.addEventListener('keydown', shoot)
     addInvaders()
@@ -98,7 +89,7 @@ function moveInvaders() {
 }
 
 function moveShip(event) {
-    squareElements[currentShipIndex].removeChild(shipElement)
+    squareElements[currentShipIndex].classList.remove('ship')
     switch (event.key) {
         case 'ArrowLeft':
             if (currentShipIndex % WIDTH !== 0)
@@ -109,7 +100,7 @@ function moveShip(event) {
                 currentShipIndex += 1
             break
     }
-    squareElements[currentShipIndex].appendChild(shipElement)
+    squareElements[currentShipIndex].classList.add('ship')
 }
 
 function shoot(event) {
@@ -153,8 +144,7 @@ function shoot(event) {
 
 function checkEndCondition() {
     let end = false
-    if (squareElements[currentShipIndex].classList.contains('invader')
-        && squareElements[currentShipIndex].contains(shipElement)) {
+    if (squareElements[currentShipIndex].classList.contains('invader', 'ship')) {
         resultsDisplay.innerHTML = 'GAME OVER'
         end = true
     }
