@@ -136,34 +136,30 @@ function stopShooting(event) {
 
 function shoot() {
     let currentBulletIndex = currentShipIndex
-    moveBullet()
-
-    function moveBullet() {
+    let bulletInterval = setInterval(() => {
         if (currentBulletIndex - WIDTH >= 0) {
             squareElements[currentBulletIndex].classList.remove('bullet')
             currentBulletIndex -= WIDTH
             squareElements[currentBulletIndex].classList.add('bullet')
-
+        
             if (squareElements[currentBulletIndex].classList.contains('invader')) {
+                clearInterval(bulletInterval)
                 squareElements[currentBulletIndex].classList.remove('bullet')
                 squareElements[currentBulletIndex].classList.remove('invader')
+                
                 squareElements[currentBulletIndex].classList.add('explosion')
-    
                 setTimeout(()=> squareElements[currentBulletIndex].classList.remove('explosion'), 200)
-    
+        
                 const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
                 aliensRemoved.push(alienRemoved)
                 results++
                 scoreElement.innerHTML = results
-                
-            } else {
-                // continue to move if no invader hit or not at edge
-                setTimeout(moveBullet, BULLET_SPEED)
             }
         } else {
+            clearInterval(bulletInterval)
             squareElements[currentBulletIndex].classList.remove('bullet')
         }
-    }
+    }, BULLET_SPEED)
 }
 
 function checkEndCondition() {
