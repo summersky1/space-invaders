@@ -8,10 +8,19 @@ const BULLET_SPEED = 100
 const SHOOT_COOLDOWN = 600
 // delay before being able to shoot again if shoot key is released, prevents rapid fire
 const RECHARGE_COOLDOWN = 100
+// time explosion sprite is shown when invader is hit
+const EXPLOSION_TIMEOUT = 200
 
 const gridElement = document.querySelector('#grid')
 const scoreElement = document.querySelector('#score')
 const squareElements = setupGrid()
+
+const alienInvaders = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    15,16,17,18,19,20,21,22,23,24,
+    30,31,32,33,34,35,36,37,38,39
+]
+const aliensRemoved = []
 
 // start on second-to-last 'row' in the middle 'column'
 let currentShipIndex = (WIDTH * HEIGHT) - Math.round(WIDTH * 1.5)
@@ -20,13 +29,6 @@ let shootingInterval = null
 let rechargeTimeout = null
 let goingRight = true
 let results = 0
-
-const alienInvaders = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-    15,16,17,18,19,20,21,22,23,24,
-    30,31,32,33,34,35,36,37,38,39
-]
-const aliensRemoved = []
 
 function setupGrid() {
     let squares = []
@@ -148,7 +150,7 @@ function shoot() {
                 squareElements[currentBulletIndex].classList.remove('invader')
                 
                 squareElements[currentBulletIndex].classList.add('explosion')
-                setTimeout(()=> squareElements[currentBulletIndex].classList.remove('explosion'), 200)
+                setTimeout(()=> squareElements[currentBulletIndex].classList.remove('explosion'), EXPLOSION_TIMEOUT)
         
                 const alienRemoved = alienInvaders.indexOf(currentBulletIndex)
                 aliensRemoved.push(alienRemoved)
